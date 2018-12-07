@@ -1,5 +1,5 @@
 require 'spec_helper'
 
-describe route_table('cognosante-poc-priv-route-table-us-gov-west-1a') do
+describe route_table('VAEC-GSS:Development:App:Private:route-table') do
   it { should exist }
 end

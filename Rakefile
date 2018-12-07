@@ -1,4 +1,31 @@
 require 'rspec/core/rake_task'
+require 'yaml'
+require 'aws-sdk'
+require 'json'
+require 'optparse'
+require 'base64'
+require 'openssl'
+require 'pathname'
+require 'winrm'
+
+account_id = ENV['ACCOUNTID']
+role_name = ENV['ROLENAME']
+
+assume_role_arn = "arn:aws-us-gov:iam::#{account_id}:role/#{role_name}"
+puts "#{assume_role_arn}"
+
+stc_client = Aws::STS::Client.new
+
+puts "STS client is created"
+
+role_credentials = Aws::AssumeRoleCredentials.new(
+  role_arn: "#{assume_role_arn}",
+  role_session_name: "RoleToAuthorizeRoleCreation"
+)
+ 
+cloud_formation = Aws::CloudFormation::Client.new(credentials: role_credentials)
+resp = cloud_formation.describe_stacks(stack_name: "vpc-peering")
+puts resp
 
 RSpec::Core::RakeTask.new('spec')
 task :default => :spec
