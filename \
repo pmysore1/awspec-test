@@ -25,12 +25,12 @@ role_credentials = Aws::AssumeRoleCredentials.new(
  
 cloud_formation = Aws::CloudFormation::Client.new(credentials: role_credentials)
 resp = cloud_formation.describe_stacks(stack_name: "vpc-peering")
-#puts resp
+puts resp
 
 resp.stacks.each do |stack|
 	puts stack.stack_id
 	puts stack.parameters
-	puts stack.outputs
+	puts.stack.outputs
 end
 
 RSpec::Core::RakeTask.new('spec')
